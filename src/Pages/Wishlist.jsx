@@ -1,23 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../redux/slicers/cartSlicer";
+import { addToCart, decrementQuantity, incrementQuantity } from "../redux/slicers/cartSlicer";
 import { removeFromWishlist } from "../redux/slicers/wishlistSlicer";
 
-const Wishlist = () => {
+const Wishlist = () => { 
   const dispatch = useDispatch();
 
    const wishlistItems = useSelector(
-    (state) => state.wishlist?.wishlistItems || []
+    (state) => state.wishlist.wishlistItems
   );
 
-  const handleRemove = (id) => {
-    dispatch(removeFromWishlist(id));
-  };
-
-  const handleAddToCart = (item) => {
-    dispatch(addToCart(item));
-  };
+ 
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12">
@@ -62,20 +56,36 @@ const Wishlist = () => {
 
                   <div className="mt-4 flex justify-between items-center">
                     <button
-                      onClick={() => handleRemove(item.id)}
+                      onClick={() =>  dispatch(removeFromWishlist(item))}
                       className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-600 transition-colors text-sm"
                       type="button"
                     >
                       Remove
                     </button>
 
-                    <button
-                      onClick={() => handleAddToCart(item)}
-                      className="bg-primary text-white text-sm px-3 py-1 rounded-md hover:bg-primary/90 transition-colors"
-                      type="button"
-                    >
-                      Add to Cart
-                    </button>
+                    {(() => {
+                      const cartItem = useSelector((state) =>
+                        state.cart.cartItems.find((cartItem) => cartItem.id === item.id)
+                      );
+                      return cartItem ? (
+                        <div className="quantity-controls flex items-center gap-2">
+                          <button onClick={() => dispatch(decrementQuantity(item))} className="btn quantity-btn bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-2 py-1 rounded">
+                            -
+                          </button>
+                          <span className="quantity-display text-black dark:text-white">
+                            {cartItem.quantity}
+                          </span>
+                          <button onClick={() => dispatch(incrementQuantity(item))} className="btn quantity-btn bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-2 py-1 rounded">
+                            +
+                          </button>
+                        </div>
+                      ) : (
+                        <button className="btn add bg-primary text-white px-4 py-2 rounded hover:bg-primary/90" onClick={() => dispatch(addToCart(item))}>
+                          Add to Cart
+                        </button>
+                      );
+                    })()}
+
                   </div>
                 </div>
               </div>

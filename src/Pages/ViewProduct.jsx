@@ -37,8 +37,7 @@ const ViewProduct = () => {
     fetchData();
   }, [baseUrl]);
 
-  // ✅ selectors
-  const wishlistItems = useSelector(
+ const wishlistItems = useSelector(
     (state) => state.wishlist?.wishlistItems || []
   );
 
@@ -53,7 +52,6 @@ const ViewProduct = () => {
     (item) => String(item.id) === String(id)
   );
 
-  // ✅ cart handlers
   const handleAddToCart = () => {
     if (!product) return;
     dispatch(addToCart(product));
@@ -69,7 +67,7 @@ const ViewProduct = () => {
     dispatch(decrementQuantity(product));
   };
 
-  // ✅ wishlist toggle
+   
   const handleToggleWishlist = () => {
     if (!product) return;
 

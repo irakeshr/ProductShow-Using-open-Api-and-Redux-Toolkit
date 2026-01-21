@@ -11,10 +11,10 @@ const wishlistSlicer = createSlice({
             state.wishlistItems.push(action.payload) 
         }, 
         removeFromWishlist:(state,action)=>{ 
-            state.wishlist = state.wishlistItems.filter(item=>item.id!==action.payload) 
+            state.wishlistItems = state.wishlistItems.filter(item=>item.id!==action.payload.id) 
         }, 
         emptyWishlist:(state)=>{ 
-            state.wishlist = [] 
+            state.wishlistItems = [] 
         }
     }
 })

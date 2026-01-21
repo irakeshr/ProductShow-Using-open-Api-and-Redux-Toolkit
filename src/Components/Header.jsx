@@ -1,9 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 
 const Header = () => {
+
+    const count = useSelector((state) => state.wishlist.wishlistItems).length;
+    const cartCount =useSelector((state) => state.cart.cartItems).length;
+    console.log(count)
  return (
  <header className="sticky top-0 z-10 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,7 +24,13 @@ const Header = () => {
  <div className="ml-10 flex items-baseline space-x-4">
  <Link to='/' className="text-gray-900 dark:text-white hover:text-primary dark:hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Home</Link>
  <Link to='/products' className="text-gray-900 dark:text-white hover:text-primary dark:hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Products</Link>
- <Link to='/wishlist' className="text-gray-900 dark:text-white hover:text-primary dark:hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Wishlist</Link>
+ <Link to='/wishlist' className="text-gray-900 dark:text-white hover:text-primary dark:hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Wishlist
+ {useSelector((state) => state.wishlist.wishlistItems).length > 0 && (
+ <span className="relative -top-6 -right-[50px] bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+  {count}
+ </span>
+ )}
+ </Link>
 
  </div>
  </div>
@@ -44,15 +55,20 @@ const Header = () => {
  />
  </div>
  </div>
+ <div className="relative">
  <Link to={"/viewCart"}>
  <button className="p-2 rounded-full text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark focus:ring-primary">
  <span className="material-symbols-outlined scale-[2]">
-  
-  shopping_cart
-
+ shopping_cart
  </span>
  </button>
  </Link>
+ {useSelector((state) => state.cart.cartItems).length > 0 && (
+ <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+ {cartCount}
+ </span>
+ )}
+ </div>
  <button className="p-2 rounded-full text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark focus:ring-primary">
  <span className="material-symbols-outlined  scale-[2]">
  account_circle

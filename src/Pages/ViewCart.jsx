@@ -1,4 +1,4 @@
-import Container from "react-bootstrap/Container";
+import React, { useEffect, useState } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
@@ -9,10 +9,13 @@ import {
   decrementQuantity,
   incrementQuantity,
   removeFromCart,
+   
 } from "../redux/slicers/cartSlicer";
+import { Container } from "react-bootstrap";
 
 function Cart() {
-   const { cartItems = [] } = useSelector((state) => state.cart);
+  
+   const cartItems= useSelector((state) => state.cart.cartItems);
 
   const dispatch = useDispatch();
 
@@ -20,6 +23,7 @@ function Cart() {
     (total, item) => total + item.price * item.quantity,
     0
   );
+  
 
   return (
     <>
@@ -28,10 +32,10 @@ function Cart() {
       <Container className="my-5">
         <h2 className="text-center mb-5">My Cart</h2>
 
-        {cartItems.length > 0 ? (
+        {cartItems?.length > 0 ? (
           <>
             <Row>
-              {cartItems.map((item) => (
+              { cartItems?.map((item) => (
                 <Col md={12} key={item.id} className="mb-3">
                   <Card className="shadow-sm">
                     <Card.Body>
@@ -80,7 +84,7 @@ function Cart() {
                           
                           <Button
                             variant="outline-danger"
-                            onClick={() => dispatch(removeFromCart(item.id))}
+                            onClick={() => dispatch(removeFromCart(item))}
                           >
                             <FaTrash />
                           </Button>

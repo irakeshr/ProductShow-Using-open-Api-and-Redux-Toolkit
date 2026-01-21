@@ -11,7 +11,8 @@ const cartSlicer = createSlice({
             state.cartItems.push({...action.payload,quantity:1}) 
         }, 
         removeFromCart:(state,action)=>{ 
-            state.cart = state.cartItems.filter(item=>item.id!==action.payload.id) 
+            console.log(action.payload.id) // call  get here
+            state.cartItems = state.cartItems.filter(item=>item.id!==action.payload.id) 
         }, 
         emptyCart:(state)=>{ 
             state.cart = [] 
